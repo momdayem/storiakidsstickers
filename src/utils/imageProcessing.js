@@ -1,3 +1,8 @@
+// Background removal thresholds
+const BRIGHTNESS_THRESHOLD_HIGH = 240;
+const BRIGHTNESS_THRESHOLD_LOW = 200;
+const COLOR_SIMILARITY_THRESHOLD = 10;
+
 export async function removeBackground(imageDataUrl) {
   // Simple background removal using edge detection and threshold
   return new Promise((resolve) => {
@@ -20,7 +25,10 @@ export async function removeBackground(imageDataUrl) {
         const brightness = (r + g + b) / 3;
         
         // If pixel is very bright or very similar across channels, make it transparent
-        if (brightness > 240 || (Math.abs(r - g) < 10 && Math.abs(g - b) < 10 && brightness > 200)) {
+        if (brightness > BRIGHTNESS_THRESHOLD_HIGH || 
+            (Math.abs(r - g) < COLOR_SIMILARITY_THRESHOLD && 
+             Math.abs(g - b) < COLOR_SIMILARITY_THRESHOLD && 
+             brightness > BRIGHTNESS_THRESHOLD_LOW)) {
           data[i + 3] = 0; // Set alpha to 0
         }
       }

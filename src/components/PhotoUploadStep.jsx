@@ -33,7 +33,7 @@ const PhotoUploadStep = ({ onComplete, onBack, onError }) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             resolve({
-              id: Math.random().toString(36).substr(2, 9),
+              id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
               url: e.target.result,
               file
             });

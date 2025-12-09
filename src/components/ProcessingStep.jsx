@@ -7,10 +7,6 @@ const ProcessingStep = ({ photos, kidName, theme, onComplete, onError, onRetry }
   const [status, setStatus] = useState('Initializing...');
   const [showTips, setShowTips] = useState(false);
 
-  useEffect(() => {
-    processPhotos();
-  }, []);
-
   const processPhotos = async () => {
     try {
       // Initialize face detector
@@ -75,6 +71,11 @@ const ProcessingStep = ({ photos, kidName, theme, onComplete, onError, onRetry }
       setStatus('Error occurred');
     }
   };
+
+  useEffect(() => {
+    processPhotos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>

@@ -39,6 +39,12 @@ export async function detectFaces(imageElement) {
   }
 }
 
+// Face scoring constants
+const IDEAL_FACE_AREA_MIN = 0.15;
+const IDEAL_FACE_AREA_MAX = 0.40;
+const ACCEPTABLE_FACE_AREA_MIN = 0.10;
+const ACCEPTABLE_FACE_AREA_MAX = 0.50;
+
 export function scorePhoto(faces, imageWidth, imageHeight) {
   if (!faces || faces.length === 0) return 0;
   
@@ -60,10 +66,10 @@ export function scorePhoto(faces, imageWidth, imageHeight) {
     const imageArea = imageWidth * imageHeight;
     const areaRatio = faceArea / imageArea;
     
-    // Prefer faces that occupy 15-40% of image
-    if (areaRatio >= 0.15 && areaRatio <= 0.40) {
+    // Prefer faces that occupy ideal percentage of image
+    if (areaRatio >= IDEAL_FACE_AREA_MIN && areaRatio <= IDEAL_FACE_AREA_MAX) {
       score += 30;
-    } else if (areaRatio > 0.10 && areaRatio < 0.50) {
+    } else if (areaRatio > ACCEPTABLE_FACE_AREA_MIN && areaRatio < ACCEPTABLE_FACE_AREA_MAX) {
       score += 20;
     } else {
       score += 10;

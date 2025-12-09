@@ -8,8 +8,7 @@ export async function generateStickerPages(kidName, themeName, heroStickerUrl) {
     const pageCanvas = await createStickerPage(
       kidName,
       theme,
-      heroStickerUrl,
-      i
+      heroStickerUrl
     );
     pages.push(pageCanvas.toDataURL('image/png'));
   }
@@ -17,7 +16,7 @@ export async function generateStickerPages(kidName, themeName, heroStickerUrl) {
   return pages;
 }
 
-async function createStickerPage(kidName, theme, heroStickerUrl, pageIndex) {
+async function createStickerPage(kidName, theme, heroStickerUrl) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   
@@ -122,6 +121,8 @@ function loadImage(url) {
   });
 }
 
+const MAX_POSITIONING_ATTEMPTS = 50;
+
 function generateStickerPositions(width, height, heroSize, count) {
   const positions = [];
   const centerX = width / 2;
@@ -134,7 +135,7 @@ function generateStickerPositions(width, height, heroSize, count) {
     let attempts = 0;
     let x, y;
     
-    while (!validPosition && attempts < 50) {
+    while (!validPosition && attempts < MAX_POSITIONING_ATTEMPTS) {
       x = 100 + Math.random() * (width - 200);
       y = 100 + Math.random() * (height - 200);
       
